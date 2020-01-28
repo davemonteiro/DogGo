@@ -1,7 +1,0 @@
-name: doggo
-channels:
-- conda-forge
-dependencies:
-- osmnx
-- pip:
-  - streamlit
