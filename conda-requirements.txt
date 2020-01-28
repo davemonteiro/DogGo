@@ -1,1 +1,1 @@
-osmnx
+osmnx=0.11.3=py_0
