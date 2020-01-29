@@ -1,1 +1,4 @@
+geopandas
+rtree
+osmnx
 streamlit
