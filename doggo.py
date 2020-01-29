@@ -77,8 +77,8 @@ def get_coords(s,e,w1,w2,w3):
 	end_node = ox.get_nearest_node(G, end_coords)
 
 	#Load gdfs
-	gdf_nodes = pd.read_pickle('nodes.pkl',protocol=4)
-	gdf_edges = pd.read_pickle('edges.pkl',protocol=4)
+	gdf_nodes = pd.read_pickle('nodes.pkl')
+	gdf_edges = pd.read_pickle('edges.pkl')
 
 	tree_counts = {}
 	road_safety = {}
