@@ -1,5 +1,4 @@
 geopandas
 rtree
 osmnx
-geopy
 streamlit
