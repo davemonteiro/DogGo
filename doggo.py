@@ -71,7 +71,7 @@ def get_map():
 	G = ox.load_graphml(filename='greater_boston')
 	return G
 
-@st.cache(suppress_st_warning=True, show_spinner=False)
+@st.cache(suppress_st_warning=True, allow_output_mutation=True, show_spinner=False)
 def get_gdfs():
 	print('getgdf')
 	#Load gdfs, ensure that pickle protocol is set appropriately
