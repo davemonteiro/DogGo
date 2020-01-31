@@ -59,6 +59,7 @@ def make_linelayer(df, color_array):
 	    getWidth = '5'
 	)
 
+@st.cache(suppress_st_warning=True, allow_output_mutation=True, show_spinner=False)
 def show_empty_map(center_y,center_x):
 	st.pydeck_chart(pdk.Deck(initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=11)))
 	return
@@ -232,7 +233,7 @@ def source_to_source(G, gdf_nodes, gdf_edges, s, dist, w1, w3):
 
 	#Add map marker icon at start 
 	start_node_df = get_node_df(start_location)
-	outbound_layer = make_linelayer(loop1_df, '[50,50,220]')
+	outbound_layer = make_linelayer(loop1_df, '[150,150,220]')
 	inbound_layer = make_linelayer(loop2_df, '[220,50,50]')
 	icon_layer = make_iconlayer(start_node_df)
 
