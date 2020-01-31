@@ -60,11 +60,6 @@ def make_linelayer(df, color_array):
 	)
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True, show_spinner=False)
-def show_empty_map(center_y,center_x):
-	st.pydeck_chart(pdk.Deck(initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=11)))
-	return
-
-@st.cache(suppress_st_warning=True, allow_output_mutation=True, show_spinner=False)
 def get_map():
 	print('getmap')
 	#Load graph from graphml
@@ -180,7 +175,7 @@ def source_to_source(G, gdf_nodes, gdf_edges, s, dist, w1, w3):
 		
 		#Path to chosen park
 		path = nx.shortest_path(G, start_node, midpoint, weight = 'optimized')
-		text_layer = make_textlayer(get_text_df(parks.iloc[index]['Name'], midpoint_coords), '[255,255,255]')
+		text_layer = make_textlayer(get_text_df(parks.iloc[index]['Name'], midpoint_coords), '[0,0,0]')
 
 	else:#The midpoint has to be calculated separately
 		#Step 1: Identify candidate midpoints
@@ -237,13 +232,13 @@ def source_to_source(G, gdf_nodes, gdf_edges, s, dist, w1, w3):
 	inbound_layer = make_linelayer(loop2_df, '[220,50,50]')
 	icon_layer = make_iconlayer(start_node_df)
 
-	st.pydeck_chart(pdk.Deck(initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13), layers=[text_layer, outbound_layer, inbound_layer, icon_layer]))
+	st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9", initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13), layers=[text_layer, outbound_layer, inbound_layer, icon_layer]))
 	
 	return
 
 ################################################################################
 
-def source_to_dest(G, gdf_nodes, gdf_edges, s, e, w2, w3):
+def source_to_dest(G, gdf_nodes, gdf_edges, duration, s, e, w2, w3):
 	if (s==''):
 		s = 'Boston College'
 	if (e==''):
@@ -282,10 +277,8 @@ def source_to_dest(G, gdf_nodes, gdf_edges, s, e, w2, w3):
 	for key in lengths.keys():
 		temp = int(lengths[key])
 		if w2:
-			print('b')
 			temp += int(100/max(1,tree_counts[key]))
 		if w3:
-			print('c')
 			temp += int(100*(road_safety[key]))
 		optimized[key] = temp
 
@@ -322,7 +315,7 @@ def source_to_dest(G, gdf_nodes, gdf_edges, s, e, w2, w3):
 		st.pydeck_chart(pdk.Deck(initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13), layers=[short_layer, optimized_layer, icon_layer]))
 
 	else:
-		st.pydeck_chart(pdk.Deck(initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13), layers=[optimized_layer, icon_layer]))
+		st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9", initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13), layers=[optimized_layer, icon_layer]))
 
 	
 	return
@@ -367,11 +360,12 @@ submit = st.button('Calculate route - Go!', key=1)
 if not submit:
 	latitude = 42.358
 	longitude = -71.085
-	show_empty_map(latitude, longitude)
+	st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9", initial_view_state=pdk.ViewState(latitude = latitude, longitude = longitude, zoom=11)))
 else:
 	if input1==input2 or input2 == '':
 		with st.spinner('Routing...'):
 			source_to_source(G, gdf_nodes, gdf_edges, input1, 100*duration, w1, w3)
 	else:
-		source_to_dest(G, gdf_nodes, gdf_edges, input1, input2, w2, w3)
+		duration = 20
+		source_to_dest(G, gdf_nodes, gdf_edges, duration, input1, input2, w2, w3)
 
