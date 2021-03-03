@@ -474,6 +474,7 @@ def source_to_dest(G, gdf_nodes, gdf_edges, s, e, dist, pace, avoid_streets):
 	optimized_layer = make_linelayer(opt_df, '[50,220,50]')
 
 	st.pydeck_chart(pdk.Deck(
+		map_style="mapbox://styles/mapbox/light-v9", 
 		initial_view_state=pdk.ViewState(latitude = center_y, longitude = center_x, zoom=13, max_zoom = 15, min_zoom = 12), 
 		layers=[short_layer, optimized_layer, icon_layer]))
 
