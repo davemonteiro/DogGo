@@ -1,7 +1,7 @@
 # DogGo
 DogGo - finding the best walk for your best friend!
 
-Online at https://dm-doggo.herokuapp.com
+Formerly online at https://dm-doggo.herokuapp.com
 
 DogGo is an application that will route a Boston dog walk for you and display the route over a map of the city. DogGo uses an OSMnx graph of streets in Boston, and finds an optimum path for your dog through the city depending on your schedule and preferences.
 
